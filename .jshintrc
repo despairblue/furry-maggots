@@ -1,24 +1,28 @@
 {
+  "asi": true,
   "bitwise": true,
-  "laxcomma": true,
   "camelcase": true,
   "curly": true,
   "eqeqeq": true,
+  "esnext": true,
   "forin": true,
+  "freeze": true,
   "immed": true,
   "latedef": true,
   "newcap": true,
   "noarg": true,
-  "nonew": false,
+  "nonew": true,
+  "node": true,
+  "nonew": true,
   "quotmark": "single",
+  "regexp": true,
+  "smarttabs": true,
+  "strict": true,
   "undef": true,
   "unused": true,
-  "devel": true,
-  "trailing": true,
   "browser": true,
-  "sub": true,
-  "debug": true,
   "globals": {
-    "Phaser": false
+    "Phaser": false,
+    "Promise": false
   }
 }
