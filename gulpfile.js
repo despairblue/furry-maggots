@@ -1,15 +1,18 @@
-var gulp = require('gulp')
-  , gutil = require('gulp-util')
-  , clean = require('gulp-rimraf')
-  , concat = require('gulp-concat')
-  , rename = require('gulp-rename')
-  , minifycss = require('gulp-minify-css')
-  , minifyhtml = require('gulp-minify-html')
-  , processhtml = require('gulp-processhtml')
-  , jshint = require('gulp-jshint')
-  , uglify = require('gulp-uglify')
-  , connect = require('gulp-connect')
-  , paths;
+'use strict';
+
+var browserSync = require('browser-sync')
+var clean       = require('gulp-rimraf')
+var concat      = require('gulp-concat')
+var connect     = require('gulp-connect')
+var gulp        = require('gulp')
+var gutil       = require('gulp-util')
+var jshint      = require('gulp-jshint')
+var minifycss   = require('gulp-minify-css')
+var minifyhtml  = require('gulp-minify-html')
+var processhtml = require('gulp-processhtml')
+var rename      = require('gulp-rename')
+var uglify      = require('gulp-uglify')
+var paths
 
 paths = {
   assets: 'src/assets/**/*',
@@ -82,17 +85,14 @@ gulp.task('html', function(){
     .on('error', gutil.log);
 });
 
-gulp.task('connect', function () {
-  connect.server({
-    root: [__dirname + '/src'],
-    port: 9000,
-    livereload: true
-  });
-});
-
 gulp.task('watch', function () {
-  gulp.watch(paths.js, ['lint']);
-  gulp.watch(['./src/index.html', paths.css, paths.js], ['html']);
+  browserSync({
+    server: {
+      baseDir: 'src'
+    }
+  });
+
+  gulp.watch(['./src/index.html', paths.css, paths.js], ['html'], [browserSync.reload]);
 });
 
 gulp.task('default', ['connect', 'watch']);
