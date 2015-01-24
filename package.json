@@ -6,7 +6,7 @@
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
-    "browser-sync": "^1.9.1"
+    "browser-sync": "^1.9.1",
     "bower": "*",
     "gulp": "*",
     "gulp-util": "*",
