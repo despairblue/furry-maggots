@@ -104,6 +104,16 @@
       } else {
         console.log(button, value)
       }
+
+      // fade out audio
+      this.soundtrack.stop();
+      this.redAudio.stop();
+      this.greenAudio.stop();
+      this.blueAudio.stop();
+      this.whiteAudio.stop();
+
+      // start level1
+      this.game.state.start('game');
     },
 
     //  On FF 0 = Y, 1 = X, 2 = Y, 3 = X, 4 = left bumper, 5 = dpad left, 6 = dpad right
@@ -143,21 +153,6 @@
           alert('WAT')
       }
     }
-
-/*
-    onDown: function () {
-      // fade out audio
-      this.soundtrack.stop();
-      this.redAudio.stop();
-      this.greenAudio.stop();
-      this.blueAudio.stop();
-      this.whiteAudio.stop();
-
-      // start level1
-      this.game.state.start('game');
-    }
-*/
-
   };
 
 
