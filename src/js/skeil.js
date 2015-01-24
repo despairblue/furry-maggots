@@ -23,6 +23,20 @@
             break;
         }
       }
+    },
+
+    setUpInput: function(self) {
+      // Activate gamepad
+      self.game.input.gamepad.start();
+
+      self.pad = self.game.input.gamepad.pad1;
+
+      self.pad.addCallbacks(self, {
+        onDown: self.onDown,
+        onUp: self.onUp,
+        onFloat: self.onFloat,
+        onAxis: self.onAxis,
+      });
     }
   }
 
