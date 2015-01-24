@@ -43,8 +43,8 @@
     },
 
     update: function () {
-      this.player1_flashlight.x = this.game.input.activePointer.x;
-      this.player1_flashlight.y = this.game.input.activePointer.y;
+//       this.player1_flashlight.x = this.game.input.activePointer.x;
+//       this.player1_flashlight.y = this.game.input.activePointer.y;
 
     },
 
@@ -108,16 +108,20 @@
     onAxis: function (button, index, value) {
       switch (index) {
         case Phaser.Gamepad.XBOX360_STICK_LEFT_X:
-          console.log('left sick y', value);
+          console.log('left sick x', value);
+          this.player2_flashlight.x = ( this.game.scale.width / 2 ) * ( value + 1 )
           break;
         case Phaser.Gamepad.XBOX360_STICK_LEFT_Y:
           console.log('left sick y', value);
+          this.player2_flashlight.y = ( this.game.scale.height / 2 ) * ( value + 1 )
           break;
         case Phaser.Gamepad.XBOX360_STICK_RIGHT_X:
-          console.log('left sick x', value);
+          console.log('righ sick x', value);
+          this.player1_flashlight.x = ( this.game.scale.width / 2 ) * ( value + 1 )
           break;
         case Phaser.Gamepad.XBOX360_STICK_RIGHT_Y:
-          console.log('left sick x', value);
+          console.log('righ sick x', value);
+          this.player1_flashlight.y = ( this.game.scale.height / 2 ) * ( value + 1 )
           break;
         default:
           console.log('THAT SHOULDNT HAPPEN!')
