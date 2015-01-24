@@ -18,31 +18,50 @@
       this.GRAVITY = 2600; // pixels/second/second
       this.JUMP_SPEED = -1000; // pixels/second (negative y is up)
 
-      var x = this.game.width / 2
-      var y = this.game.height / 2
+      // Create a player sprite
+      this.player = this.add.sprite(0, 20* 32, 'player', 0);
+      this.player.animations.add('walk')
+      this.player.animations.play('walk', 6, true)
 
-      this.player = this.add.sprite(x, y, 'player');
+      // Enable physics on the player
+      this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
+
+      // Make player collide with world boundaries so he doesn't leave the stage
+      this.player.body.collideWorldBounds = true;
+
+      // Set player minimum and maximum movement speed
+      this.player.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED * 10); // x, y
+
+      // Add drag to the player that slows them down when they are not accelerating
+      this.player.body.drag.setTo(this.DRAG, 0); // x, y
+
+      // Since we're jumping we need gravity
+      this.game.physics.arcade.gravity.y = this.GRAVITY;
+
       this.player.anchor.setTo(0.5, 0.5);
       this.input.onDown.add(this.onInputDown, this);
 
+      // threw it on the ground!
       this.ground = this.game.add.group();
-      for(x = 0; x < this.game.width; x += 32) {
-        // Add the ground blocks, enable physics on each, make them immovable
-        var groundBlock = this.game.add.sprite(x, this.game.height - 32, 'ground');
-        this.game.physics.enable(groundBlock, Phaser.Physics.ARCADE);
-        groundBlock.body.immovable = true;
-        groundBlock.body.allowGravity = false;
-        this.ground.add(groundBlock);
-      }
+      Phaser.skeil.createWall(this, 0, 23, 'x', 32, 0xffffff, 0, this.ground)
+
+      // for(x = 0; x < this.game.width; x += 32) {
+      //   // Add the ground blocks, enable physics on each, make them immovable
+      //   var groundBlock = this.game.add.sprite(x, this.game.height - 32, 'invisible-sprite');
+      //   this.game.physics.enable(groundBlock, Phaser.Physics.ARCADE);
+      //   groundBlock.body.immovable = true;
+      //   groundBlock.body.allowGravity = false;
+      //   this.ground.add(groundBlock);
+      // }
       var x1 = 6
-      var y1 = 11
+      var y1 = 20
       var direction = 'y'
       var length = 3
-      var color = 'green'
+      var color = 0x00ff00
       this.obstacles = this.game.add.group();
 
-      Phaser.skeil.createWall(this, x1, y1, direction, length, color, this.obstacles)
-      Phaser.skeil.createWall(this, x1 + 5, y1 - 1, direction, length + 1, color, this.obstacles)
+      Phaser.skeil.createWall(this, x1, y1, direction, length, color, 0.6, this.obstacles)
+      Phaser.skeil.createWall(this, x1 + 15, y1 - 1, direction, length + 1, 0xff0000, 0.6, this.obstacles)
 
       // Capture certain keys to prevent their default actions in the browser.
       // This is only necessary because this is an HTML5 game. Games on other
@@ -58,22 +77,26 @@
     },
 
     update: function () {
-      var x, y, cx, cy, dx, dy, angle, scale;
+      this.game.physics.arcade.collide(this.player, this.ground);
 
-      x = this.input.position.x;
-      y = this.input.position.y;
-      cx = this.world.centerX;
-      cy = this.world.centerY;
+      if (this.leftInputIsActive) {
+        // If the LEFT key is down, set the player velocity to move left
+        this.player.body.acceleration.x = -this.ACCELERATION;
+        console.log('run forest')
+      } else if (this.rightInputIsActive) {
+        // If the RIGHT key is down, set the player velocity to move right
+        this.player.body.acceleration.x = this.ACCELERATION;
+      } else {
+        this.player.body.acceleration.x = 0;
+      }
 
-      angle = Math.atan2(y - cy, x - cx) * (180 / Math.PI);
-      this.player.angle = angle;
+      // Set a variable that is true when the player is touching the ground
+      var onTheGround = this.player.body.touching.down;
 
-      dx = x - cx;
-      dy = y - cy;
-      scale = Math.sqrt(dx * dx + dy * dy) / 100;
-
-      this.player.scale.x = scale * 0.6;
-      this.player.scale.y = scale * 0.6;
+      if (onTheGround && this.upInputIsActive) {
+        // Jump when the player is touching the ground and the up arrow is pressed
+        this.player.body.velocity.y = this.JUMP_SPEED;
+      }
     },
 
     onInputDown: function () {
@@ -94,11 +117,31 @@
         case Phaser.Gamepad.XBOX360_Y:
           this.bg.tint = 0xffff00
           break;
+        case Phaser.Gamepad.XBOX360_DPAD_LEFT:
+          this.leftInputIsActive = true
+          break;
+        case Phaser.Gamepad.XBOX360_DPAD_RIGHT:
+          this.rightInputIsActive = true
+          break;
+        case Phaser.Gamepad.XBOX360_DPAD_UP:
+          this.upInputIsActive = true
+          break;
       }
     },
 
-    onUp: function() {
+    onUp: function(button) {
+      switch (button) {
+        case Phaser.Gamepad.XBOX360_DPAD_LEFT:
+          this.leftInputIsActive = false
+          break;
+        case Phaser.Gamepad.XBOX360_DPAD_RIGHT:
+          this.rightInputIsActive = false
+          break;
+        case Phaser.Gamepad.XBOX360_DPAD_UP:
+          this.upInputIsActive = false
+          break;
 
+      }
     },
 
     onFloat: function() {
