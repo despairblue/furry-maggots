@@ -8,12 +8,42 @@
   Game.prototype = {
 
     create: function () {
+      // Set stage background to something sky colored
+      this.game.stage.backgroundColor = 0x4488cc
+
+      // Define movement constants
+      this.MAX_SPEED = 500; // pixels/second
+      this.ACCELERATION = 1500; // pixels/second/second
+      this.DRAG = 600; // pixels/second
+      this.GRAVITY = 2600; // pixels/second/second
+      this.JUMP_SPEED = -1000; // pixels/second (negative y is up)
+
       var x = this.game.width / 2
-        , y = this.game.height / 2;
+      var y = this.game.height / 2
 
       this.player = this.add.sprite(x, y, 'player');
       this.player.anchor.setTo(0.5, 0.5);
       this.input.onDown.add(this.onInputDown, this);
+
+      this.ground = this.game.add.group();
+      for(x = 0; x < this.game.width; x += 32) {
+        // Add the ground blocks, enable physics on each, make them immovable
+        var groundBlock = this.game.add.sprite(x, this.game.height - 32, 'ground');
+        this.game.physics.enable(groundBlock, Phaser.Physics.ARCADE);
+        groundBlock.body.immovable = true;
+        groundBlock.body.allowGravity = false;
+        this.ground.add(groundBlock);
+      }
+
+      // Capture certain keys to prevent their default actions in the browser.
+      // This is only necessary because this is an HTML5 game. Games on other
+      // platforms may not need code like this.
+      this.game.input.keyboard.addKeyCapture([
+        Phaser.Keyboard.LEFT,
+        Phaser.Keyboard.RIGHT,
+        Phaser.Keyboard.UP,
+        Phaser.Keyboard.DOWN
+        ]);
     },
 
     update: function () {
@@ -37,6 +67,7 @@
 
     onInputDown: function () {
       this.game.state.start('menu');
+
     }
 
   };
