@@ -78,11 +78,11 @@ gulp.task('lint', function() {
     .on('error', gutil.log);
 });
 
+
 gulp.task('html', function(){
-  gulp.src('src/*.html')
-    .pipe(connect.reload())
-    .on('error', gutil.log);
+  browserSync.reload();
 });
+
 
 gulp.task('watch', function () {
   browserSync({
