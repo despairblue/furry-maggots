@@ -11,5 +11,8 @@ window.onload = function () {
   game.state.add('game', ns.Game);
   /* yo phaser:state new-state-files-put-here */
 
+  // custom stuff
+  Phaser.skeil = ns.skeil
+
   game.state.start('boot');
 };

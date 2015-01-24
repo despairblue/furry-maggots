@@ -34,6 +34,15 @@
         groundBlock.body.allowGravity = false;
         this.ground.add(groundBlock);
       }
+      var x1 = 6
+      var y1 = 11
+      var direction = 'y'
+      var length = 3
+      var color = 'green'
+      this.obstacles = this.game.add.group();
+
+      Phaser.skeil.createWall(this, x1, y1, direction, length, color, this.obstacles)
+      Phaser.skeil.createWall(this, x1 + 5, y1 - 1, direction, length + 1, color, this.obstacles)
 
       // Capture certain keys to prevent their default actions in the browser.
       // This is only necessary because this is an HTML5 game. Games on other
