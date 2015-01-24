@@ -14,5 +14,7 @@ window.onload = function () {
   // custom stuff
   Phaser.skeil = ns.skeil
 
+
+
   game.state.start('boot');
 };
