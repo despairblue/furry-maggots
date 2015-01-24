@@ -9,7 +9,7 @@
 
     create: function () {
       // Set stage background to something sky colored
-      this.game.stage.backgroundColor = 0x4488cc
+      this.game.stage.backgroundColor = 0x000000
 
       // Define movement constants
       this.MAX_SPEED = 500; // pixels/second
