@@ -32,10 +32,10 @@
       self.pad = self.game.input.gamepad.pad1;
 
       self.pad.addCallbacks(self, {
-        onDown: self.onDown,
-        onUp: self.onUp,
-        onFloat: self.onFloat,
-        onAxis: self.onAxis,
+        onDown: self.onDown.bind(self),
+        onUp: self.onUp.bind(self),
+        onFloat: self.onFloat.bind(self),
+        onAxis: self.onAxis.bind(self),
       });
     }
   }
