@@ -26,6 +26,14 @@
       // invisible sprite
       this.load.image('invisible-sprite', 'assets/invisible-sprite.png');
 
+      // audio
+      this.load.audio('soundtrack', 'assets/sound/go.mp3');
+      this.load.audio('redAudio', 'assets/sound/red.mp3');
+      this.load.audio('greenAudio', 'assets/sound/green.mp3');
+      this.load.audio('blueAudio', 'assets/sound/blue.mp3');
+      this.load.audio('whiteAudio', 'assets/sound/white.mp3');
+
+
     },
 
     create: function () {
