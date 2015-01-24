@@ -3,7 +3,6 @@
 var browserSync = require('browser-sync')
 var clean       = require('gulp-rimraf')
 var concat      = require('gulp-concat')
-var connect     = require('gulp-connect')
 var gulp        = require('gulp')
 var gutil       = require('gulp-util')
 var jshint      = require('gulp-jshint')
@@ -95,5 +94,5 @@ gulp.task('watch', function () {
   gulp.watch(['./src/index.html', paths.css, paths.js], ['html'], [browserSync.reload]);
 });
 
-gulp.task('default', ['connect', 'watch']);
+gulp.task('default', ['watch']);
 gulp.task('build', ['copy', 'uglify', 'minifycss', 'processhtml', 'minifyhtml']);
