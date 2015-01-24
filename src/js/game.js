@@ -8,8 +8,8 @@
   Game.prototype = {
 
     create: function () {
-      // Set stage background to something sky colored
-      this.game.stage.backgroundColor = 0x000000
+      this.bg = this.game.add.tileSprite(0, 0, 1024, 768, 'background');
+      this.bg.fixedToCamera = true;
 
       // Define movement constants
       this.MAX_SPEED = 500; // pixels/second
