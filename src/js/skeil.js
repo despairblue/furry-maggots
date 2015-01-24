@@ -2,12 +2,15 @@
   'use strict';
 
   var skeil = {
-    createWall: function(self, x1, y1, direction, length, color, group) {
+    createWall: function(self, x1, y1, direction, length, color, alpha, group) {
       x1 = x1 * 32;
       y1 = y1 * 32
 
       for (var i = 0; i < length; i++) {
-        var block = self.game.add.sprite(x1, y1, color);
+        var block = self.game.add.sprite(x1, y1, 'block');
+        block.tint = color
+        block.alpha = alpha
+
         self.game.physics.enable(block, Phaser.Physics.ARCADE);
         block.body.immovable = true;
         block.body.allowGravity = false;
