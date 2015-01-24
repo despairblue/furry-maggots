@@ -9,13 +9,23 @@
   Preloader.prototype = {
 
     preload: function () {
-      this.asset = this.add.sprite(320, 240, 'preloader');
+      this.asset = this.add.sprite(400, 300, 'preloader');
       this.asset.anchor.setTo(0.5, 0.5);
 
       this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
       this.load.setPreloadSprite(this.asset);
       this.load.image('player', 'assets/player.png');
       this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
+
+      // menu flashlight colors
+      this.load.image('flashlight-white', 'assets/flashlight-white.png');
+      this.load.image('flashlight-red', 'assets/flashlight-red.png');
+      this.load.image('flashlight-blue', 'assets/flashlight-blue.png');
+      this.load.image('flashlight-green', 'assets/flashlight-green.png');
+
+      // invisible sprite
+      this.load.image('invisible-sprite', 'assets/invisible-sprite.png');
+
     },
 
     create: function () {

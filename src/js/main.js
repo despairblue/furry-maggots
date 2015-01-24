@@ -4,7 +4,7 @@ window.onload = function () {
   var game
     , ns = window['furry-maggots'];
 
-  game = new Phaser.Game(640, 480, Phaser.AUTO, 'furry-maggots-game');
+  game = new Phaser.Game(800, 600, Phaser.AUTO, 'furry-maggots-game');
   game.state.add('boot', ns.Boot);
   game.state.add('preloader', ns.Preloader);
   game.state.add('menu', ns.Menu);
