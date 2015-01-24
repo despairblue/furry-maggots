@@ -53,6 +53,8 @@
         Phaser.Keyboard.UP,
         Phaser.Keyboard.DOWN
         ]);
+
+      Phaser.skeil.setUpInput(this)
     },
 
     update: function () {
@@ -76,8 +78,36 @@
 
     onInputDown: function () {
       this.game.state.start('menu');
-    }
+    },
 
+    onDown: function(button, value) {
+      switch (button) {
+        case Phaser.Gamepad.XBOX360_A:
+          this.bg.tint = 0x00ff00
+          break;
+        case Phaser.Gamepad.XBOX360_B:
+          this.bg.tint = 0xff0000
+          break;
+        case Phaser.Gamepad.XBOX360_X:
+          this.bg.tint = 0x0000ff
+          break;
+        case Phaser.Gamepad.XBOX360_Y:
+          this.bg.tint = 0xffff00
+          break;
+      }
+    },
+
+    onUp: function() {
+
+    },
+
+    onFloat: function() {
+
+    },
+
+    onAxis: function() {
+
+    },
   };
 
   window['furry-maggots'] = window['furry-maggots'] || {};
