@@ -28,6 +28,25 @@
       }
     },
 
+    createVarWall: function(self, x1, y1, width, height, color, alpha, group) {
+      // create bitmap
+      var rectBitmap = self.game.add.bitmapData(width, height);
+      rectBitmap.context.fillStyle = 'rgb(255, 255, 255)';
+      rectBitmap.context.strokeStyle = 'rgb(255, 255, 255)';
+
+      // create image
+      var rectImage = self.game.add.sprite(x1, y1, rectBitmap);
+      rectImage.alpha = alpha;
+      rectImage.tint = color;
+
+      self.game.physics.enable(rectImage, Phaser.Physics.ARCADE);
+      rectImage.body.immovable = true;
+      rectImage.body.allowGravity = false;
+
+      group.add(rectImage);
+
+    },
+
     setUpInput: function(self) {
       // Activate gamepad
       self.game.input.gamepad.start();
@@ -79,8 +98,8 @@
       var JUMP_SPEED = -500; // pixels/second (negative y is up)
 
       // Create a player sprite
-      var player = self.add.sprite(0, 0, sprite, 0)
-      player.animations.add('walk')
+      var player = self.add.sprite(0, self.game.height-100, sprite, 0);
+      player.animations.add('walk');
 
       // Enable physics on the player
       self.game.physics.enable(player, Phaser.Physics.ARCADE);

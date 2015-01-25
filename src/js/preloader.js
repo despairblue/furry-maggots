@@ -33,11 +33,19 @@
       this.load.image('invisible-sprite', 'assets/invisible-sprite.png');
 
       // audio
-      this.load.audio('soundtrack', 'assets/sound/go.mp3');
-      this.load.audio('redAudio', 'assets/sound/red.mp3');
-      this.load.audio('greenAudio', 'assets/sound/green.mp3');
-      this.load.audio('blueAudio', 'assets/sound/blue.mp3');
-      this.load.audio('whiteAudio', 'assets/sound/white.mp3');
+      this.load.audio('soundtrack', 'assets/sound/root.mp3');
+
+      this.load.audio('redAudio1', 'assets/sound/red1.mp3');
+      this.load.audio('redAudio2', 'assets/sound/red2.mp3');
+
+      this.load.audio('greenAudio1', 'assets/sound/green1.mp3');
+      this.load.audio('greenAudio2', 'assets/sound/green2.mp3');
+
+      this.load.audio('blueAudio1', 'assets/sound/blue1.mp3');
+      this.load.audio('blueAudio2', 'assets/sound/blue2.mp3');
+
+      this.load.audio('whiteAudio1', 'assets/sound/white1.mp3');
+      this.load.audio('whiteAudio2', 'assets/sound/white2.mp3');
 
 
     },

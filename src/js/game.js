@@ -8,8 +8,8 @@
   Game.prototype = {
 
     create: function () {
-      this.bg = this.game.add.tileSprite(0, 0, 1024, 768, 'background');
-      this.bg.fixedToCamera = true;
+      // this.bg = this.game.add.tileSprite(0, 0, 1024, 768, 'background');
+      // this.bg.fixedToCamera = true;
 
       // Define movement constants
       this.MAX_SPEED = 500; // pixels/second
@@ -23,13 +23,13 @@
       this.player2 = Phaser.skeil.Player(this, 'player2')
 
       // threw it on the ground!
-      this.ground = this.game.add.group();
-      Phaser.skeil.createWall(this, 0, 23, 'x', 32, 0xffffff, 0, this.ground)
+      this.walls = this.game.add.group();
+      Phaser.skeil.createWall(this, 0, 23, 'x', 32, 0xffffff, 0, this.walls)
 
       // create the obstacles
-      this.obstacles = this.game.add.group();
-      Phaser.skeil.createWall(this, 6, 20, 'y', 3, 0x00ff00, 0.6, this.obstacles)
-      Phaser.skeil.createWall(this, 21, 19, 'y', 4, 0xff0000, 0.6, this.obstacles)
+      // this.obstacles = this.game.add.group();
+      Phaser.skeil.createWall(this, 6, 20, 'y', 3, 0x00ff00, 0.6, this.walls)
+      Phaser.skeil.createWall(this, 21, 19, 'y', 4, 0xff0000, 0.6, this.walls)
 
       // Capture certain keys to prevent their default actions in the browser.
       // This is only necessary because this is an HTML5 game. Games on other
@@ -45,10 +45,8 @@
     },
 
     update: function () {
-      this.game.physics.arcade.collide(this.player1, this.ground);
-      this.game.physics.arcade.collide(this.player1, this.obstacles);
-      this.game.physics.arcade.collide(this.player2, this.ground);
-      this.game.physics.arcade.collide(this.player2, this.obstacles);
+      this.game.physics.arcade.collide(this.player1, this.walls);
+      this.game.physics.arcade.collide(this.player2, this.walls);
 
       if (this.leftInput1IsActive) {
         // If the LEFT key is down, set the player velocity to move left
@@ -95,16 +93,16 @@
       // gamepad
       switch (button) {
         case Phaser.Gamepad.XBOX360_A:
-          this.bg.tint = 0x00ff00
+          //this.bg.tint = 0x00ff00
           break;
         case Phaser.Gamepad.XBOX360_B:
-          this.bg.tint = 0xff0000
+          //this.bg.tint = 0xff0000
           break;
         case Phaser.Gamepad.XBOX360_X:
-          this.bg.tint = 0x0000ff
+          //this.bg.tint = 0x0000ff
           break;
         case Phaser.Gamepad.XBOX360_Y:
-          this.bg.tint = 0xffff00
+          //this.bg.tint = 0xffff00
           break;
         case Phaser.Gamepad.XBOX360_DPAD_LEFT:
           this.leftInput1IsActive = true
@@ -129,16 +127,16 @@
           this.upInput2IsActive = true
           break;
         case Phaser.Keyboard.A:
-          this.bg.tint = 0x00ff00
+          //this.bg.tint = 0x00ff00
           break;
         case Phaser.Keyboard.S:
-          this.bg.tint = 0xff0000
+          //this.bg.tint = 0xff0000
           break;
         case Phaser.Keyboard.D:
-          this.bg.tint = 0x0000ff
+          //this.bg.tint = 0x0000ff
           break;
         case Phaser.Keyboard.F:
-          this.bg.tint = 0xffff00
+          //this.bg.tint = 0xffff00
           break;
       }
     },

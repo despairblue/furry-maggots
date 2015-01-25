@@ -8,19 +8,85 @@
   Level1.prototype = {
 
     create: function() {
-      // Set stage background color
-//       this.game.stage.backgroundColor = 0x505050;
+
+      // Define movement constants
+      this.MAX_SPEED = 500; // pixels/second
+      this.ACCELERATION = 1500; // pixels/second/second
+      this.DRAG = 600; // pixels/second
+      this.GRAVITY = 2600; // pixels/second/second
+      this.JUMP_SPEED = -1000; // pixels/second (negative y is up)
+
+      // Create a player sprites
+      this.player1 = Phaser.skeil.Player(this, 'player1')
+      this.player2 = Phaser.skeil.Player(this, 'player2')
+
+      // add music
+      this.soundtrack = this.game.add.audio('soundtrack', 1, true, true);
+
+      this.redAudio1 = this.game.add.audio('redAudio1', 0.5, true, true);
+      this.redAudio2 = this.game.add.audio('redAudio2', 0.5, true, true);
+
+      this.greenAudio1 = this.game.add.audio('greenAudio1', 0.5, true, true);
+      this.greenAudio2 = this.game.add.audio('greenAudio2', 0.5, true, true);
+
+      this.blueAudio1 = this.game.add.audio('blueAudio1', 0.5, true, true);
+      this.blueAudio2 = this.game.add.audio('blueAudio2', 0.5, true, true);
+
+      this.whiteAudio1 = this.game.add.audio('whiteAudio1', 0.5, true, true);
+      this.whiteAudio2 = this.game.add.audio('whiteAudio2', 0.5, true, true);
+
+      this.soundtrack.play();
+      this.whiteAudio1.play('', Math.random()*this.whiteAudio1.totalDuration*1000);
+      this.whiteAudio2.play('', Math.random()*this.whiteAudio2.totalDuration*1000);
+
+
+      // threw it on the ground!
+      this.walls = this.game.add.group();
+
+      // ceiling
+      Phaser.skeil.createVarWall(this, 0, this.game.height/3, this.game.width, 32, 0xffffff, 1, this.walls)
+      // floor
+      Phaser.skeil.createVarWall(this, 0, this.game.height-32, 5*32, 32, 0xffffff, 1, this.walls)
+      Phaser.skeil.createVarWall(this, 8*32, this.game.height-32, this.game.width-8*32, 32, 0xffffff, 1, this.walls)
+
+      // box1
+      Phaser.skeil.createVarWall(this, 4*32, this.game.height-32*2, 32, 32, 0xffffff, 1, this.walls)
+      // box2
+      Phaser.skeil.createVarWall(this, 32, this.game.height-32*7, 32*2, 32*2, 0xffffff, 1, this.walls)
+      // box3
+      Phaser.skeil.createVarWall(this, 2*32, this.game.height-32*11, 32*2, 32*2, 0xffffff, 1, this.walls)
+      // box4
+      Phaser.skeil.createVarWall(this, 7*32, this.game.height-32*8, 32*10, 32, 0xffffff, 1, this.walls)
+      // box5
+      Phaser.skeil.createVarWall(this, 21*32, this.game.height/3+32, 32, 32*10, 0xffffff, 1, this.walls)
+
+      // obstacles
+      this.obstacles = this.game.add.group();
+
+      // obstacle 1
+      Phaser.skeil.createVarWall(this, 21*32, this.game.height/3+32*11, 32, 32*4, 0xff0000, 1, this.obstacles);
+
+
+      // Capture certain keys to prevent their default actions in the browser.
+      // This is only necessary because this is an HTML5 game. Games on other
+      // platforms may not need code like this.
+      this.game.input.keyboard.addKeyCapture([
+        Phaser.Keyboard.LEFT,
+        Phaser.Keyboard.RIGHT,
+        Phaser.Keyboard.UP,
+        Phaser.Keyboard.DOWN
+        ]);
+
+      Phaser.skeil.setUpInput(this)
 
       // Add the light
       this.lightGroup = this.game.add.group();
 
       this.Player1Light = this.game.add.sprite(this.game.width/2, this.game.height/2, 'light');
       this.Player1Light.anchor.setTo(0.5, 0.5);
-//       this.Player1Light.blendMode = Phaser.blendModes.MULTIPLY;
 
-      this.Player2Light = this.game.add.sprite(50, this.game.height - 50, 'light');
+      this.Player2Light = this.game.add.sprite(50, this.game.height - 82, 'light');
       this.Player2Light.anchor.setTo(0.5, 0.5);
-//       this.Player2Light.blendMode = Phaser.blendModes.MULTIPLY;
 
       this.lightGroup.add(this.Player1Light);
       this.lightGroup.add(this.Player2Light);
@@ -48,45 +114,14 @@
       // Setup function for hiding or showing rays
       this.game.input.onTap.add(this.toggleRays, this);
 
-      // Build some walls. These will block line of sight.
-      // those will be replaced by actual terrain
-      var NUMBER_OF_WALLS = 4;
-      this.walls = this.game.add.group();
-      var i, x, y;
-      for(i = 0; i < NUMBER_OF_WALLS; i++) {
-          x = i * this.game.width/NUMBER_OF_WALLS + 50;
-          y = this.game.rnd.integerInRange(50, this.game.height - 200);
-          this.game.add.image(x, y, 'block', 0, this.walls).scale.setTo(3, 3);
-      }
+      //player colors
+      this.playerColorsWHITE = 'rgba(255, 255, 255, 1)';
+      this.playerColorsRED = 'rgba(255, 0, 0, 1)';
+      this.playerColorsGREEN = 'rgba(0, 255, 0, 1)';
+      this.playerColorsBLUE = 'rgba(0, 0, 255, 1)';
 
-      // create Flashlights
-      // groups
-      this.Player1Flashlight = this.game.add.group();
-      this.Player1FlashlightLeft = this.game.add.group();
-      this.Player1FlashlightRight = this.game.add.group();
-
-      // constants
-      var offsetX = -20;
-      var offsetY = -1;
-
-      // box sprite is 32x32
-      var scaleX = 1/4;   // = 8 pixel
-      var scaleY = 1/16;  // = 2 pixel
-
-      // left bar
-      for(var i = 0; i < 4; i++) {
-        this.game.add.image(this.Player1Light.x+offsetX+(8*i), this.Player1Light.y+offsetY-(2*i), 'block', 0, this.Player1FlashlightLeft).scale.setTo(scaleX, scaleY);
-      }
-
-      // right bar
-      for(var i = 0; i < 4; i++) {
-        this.game.add.image(this.Player1Light.x+offsetX+(8*i), this.Player1Light.y+offsetY+(2*i), 'block', 0, this.Player1FlashlightRight).scale.setTo(scaleX, scaleY);
-      }
-
-      // add to flashlight
-      this.Player1Flashlight.add(this.Player1FlashlightLeft);
-      this.Player1Flashlight.add(this.Player1FlashlightRight);
-
+      this.player1Color = this.playerColorsWHITE;
+      this.player2Color = this.playerColorsWHITE;
 
       // Simulate a pointer input at the center of the stage
       // when the example begins running.
@@ -106,9 +141,52 @@
 
     // The update() method is called every frame
     update: function() {
+      // collision
+      this.game.physics.arcade.collide(this.player1, this.walls);
+      this.game.physics.arcade.collide(this.player2, this.walls);
+
+      if (this.leftInput1IsActive) {
+        // If the LEFT key is down, set the player velocity to move left
+        this.player1.left(true)
+      } else if (this.rightInput1IsActive) {
+        // If the RIGHT key is down, set the player velocity to move right
+        this.player1.right(true)
+      } else {
+        this.player1.left(false)
+      }
+
+      // Set a variable that is true when the player is touching the ground
+      var onTheGround = this.player1.body.touching.down;
+
+      if (onTheGround && this.upInput1IsActive) {
+        // Jump when the player is touching the ground and the up arrow is pressed
+        this.player1.jump()
+      }
+
+      if (this.leftInput2IsActive) {
+        // If the LEFT key is down, set the player velocity to move left
+        this.player2.left(true)
+      } else if (this.rightInput2IsActive) {
+        // If the RIGHT key is down, set the player velocity to move right
+        this.player2.right(true)
+      } else {
+        this.player2.left(false)
+      }
+
+      // Set a variable that is true when the player is touching the ground
+      var onTheGround = this.player2.body.touching.down;
+
+      if (onTheGround && this.upInput2IsActive) {
+        // Jump when the player is touching the ground and the up arrow is pressed
+        this.player2.jump()
+      }
+
       // Move the light to pointer location
-      this.Player1Light.x = this.game.input.activePointer.x;
-      this.Player1Light.y = this.game.input.activePointer.y;
+      this.Player1Light.x = this.player1.body.x+this.player1.body.width/2;
+      this.Player1Light.y = this.player1.body.y+this.player1.body.height/2;
+
+      this.Player2Light.x = this.player2.body.x+this.player2.body.width/2;
+      this.Player2Light.y = this.player2.body.y+this.player2.body.height/2;
 
       // Next, fill the entire light bitmap with a dark shadow color.
       this.bitmap1.context.fillStyle = 'rgba(1, 1, 1, 1)';
@@ -128,15 +206,24 @@
           new Phaser.Point(0, this.game.height)
       ];
 
+
+
       // Ray casting!
       // Cast rays from each light
       var light2 = this.Player2Light;
-      this.lightFunc(this.bitmap1, light2, 'rgba(0, 255, 0, 1)', stageCorners);
+      this.lightFunc(this.bitmap1, light2, this.player2Color, stageCorners);
 
 
       var light1 = this.Player1Light;
-      this.lightFunc(this.bitmap2, light1, 'rgba(255, 0, 0, 1)', stageCorners);
+      this.lightFunc(this.bitmap2, light1, this.player1Color, stageCorners);
 
+      // draw obstacles
+      //TODO remove obstacles if color matches
+/*
+      this.obstacles.forEach(function(obstacle) {
+        ;
+      }, this);
+*/
 
       // This just tells the engine it should update the texture cache
       this.bitmap1.dirty = true;
@@ -357,7 +444,180 @@
       }, this);
 
       return closestIntersection;
-    }
+    },
+
+    onInputDown: function () {
+      this.toggleRays();
+    },
+
+    onDown: function(button, value) {
+      // gamepad
+      switch (button) {
+        case Phaser.Gamepad.XBOX360_A:
+          this.player1Color = this.playerColorsGREEN;
+
+          //change audio
+          if(!this.greenAudio1.isPlaying) this.greenAudio1.fadeTo(500, 0.5);
+          this.redAudio1.fadeTo(500, 0);
+          this.blueAudio1.fadeTo(500, 0);
+          this.whiteAudio1.fadeTo(500, 0);
+          break;
+        case Phaser.Gamepad.XBOX360_B:
+          this.player1Color = this.playerColorsRED;
+
+          //change audio
+          if(!this.redAudio1.isPlaying) this.redAudio1.fadeTo(500, 0.5);
+          this.greenAudio1.fadeTo(500, 0);
+          this.blueAudio1.fadeTo(500, 0);
+          this.whiteAudio1.fadeTo(500, 0);
+          break;
+        case Phaser.Gamepad.XBOX360_X:
+          this.player1Color = this.playerColorsBLUE;
+
+          //change audio
+          if(!this.blueAudio1.isPlaying) this.blueAudio1.fadeTo(500, 0.5);
+          this.redAudio1.fadeTo(500, 0);
+          this.greenAudio1.fadeTo(500, 0);
+          this.whiteAudio1.fadeTo(500, 0);
+          break;
+        case Phaser.Gamepad.XBOX360_Y:
+          this.player1Color = this.playerColorsWHITE;
+
+          //change audio
+          if(!this.whiteAudio1.isPlaying) this.whiteAudio1.fadeTo(500, 0.5);
+          this.redAudio1.fadeTo(500, 0);
+          this.blueAudio1.fadeTo(500, 0);
+          this.greenAudio1.fadeTo(500, 0);
+          break;
+        case Phaser.Gamepad.XBOX360_DPAD_LEFT:
+          this.leftInput1IsActive = true
+          break;
+        case Phaser.Gamepad.XBOX360_DPAD_RIGHT:
+          this.rightInput1IsActive = true
+          break;
+        case Phaser.Gamepad.XBOX360_LEFT_TRIGGER:
+          this.upInput1IsActive = true
+          break;
+      }
+
+      // keyboard
+      switch (button.keyCode) {
+        case Phaser.Keyboard.LEFT:
+          this.leftInput2IsActive = true;
+          break;
+        case Phaser.Keyboard.RIGHT:
+          this.rightInput2IsActive = true
+          break;
+        case Phaser.Keyboard.SPACEBAR:
+          this.upInput2IsActive = true
+          break;
+        case Phaser.Keyboard.A:
+          // change color of flashlight
+          this.player2Color = this.playerColorsGREEN;
+
+          //change audio
+          if(!this.greenAudio2.isPlaying) this.greenAudio2.fadeTo(500, 0.5);
+          this.redAudio2.fadeTo(500, 0);
+          this.blueAudio2.fadeTo(500, 0);
+          this.whiteAudio2.fadeTo(500, 0);
+          break;
+        case Phaser.Keyboard.S:
+          this.player2Color = this.playerColorsRED;
+
+          //change audio
+          if(!this.redAudio2.isPlaying) this.redAudio2.fadeTo(500, 0.5);
+          this.greenAudio2.fadeTo(500, 0);
+          this.blueAudio2.fadeTo(500, 0);
+          this.whiteAudio2.fadeTo(500, 0);
+          break;
+        case Phaser.Keyboard.D:
+          this.player2Color = this.playerColorsBLUE;
+
+          //change audio
+          if(!this.blueAudio2.isPlaying) this.blueAudio2.fadeTo(500, 0.5);
+          this.redAudio2.fadeTo(500, 0);
+          this.greenAudio2.fadeTo(500, 0);
+          this.whiteAudio2.fadeTo(500, 0);
+          break;
+        case Phaser.Keyboard.F:
+          this.player2Color = this.playerColorsWHITE;
+
+          //change audio
+          if(!this.whiteAudio2.isPlaying) this.whiteAudio2.fadeTo(500, 0.5);
+          this.redAudio2.fadeTo(500, 0);
+          this.blueAudio2.fadeTo(500, 0);
+          this.greenAudio2.fadeTo(500, 0);
+          break;
+      }
+    },
+    onUp: function(button) {
+      // gamepad
+      switch (button) {
+        case Phaser.Gamepad.XBOX360_DPAD_LEFT:
+          this.leftInput1IsActive = false
+          break;
+        case Phaser.Gamepad.XBOX360_DPAD_RIGHT:
+          this.rightInput1IsActive = false
+          break;
+        case Phaser.Gamepad.XBOX360_LEFT_TRIGGER:
+          this.upInput1IsActive = false
+          break;
+      }
+
+      // keyboard
+      switch (button.keyCode) {
+        case Phaser.Keyboard.LEFT:
+          this.leftInput2IsActive = false;
+          break;
+        case Phaser.Keyboard.RIGHT:
+          this.rightInput2IsActive = false
+          break;
+        case Phaser.Keyboard.SPACEBAR:
+          this.upInput2IsActive = false
+          break;
+      }
+    },
+
+    onFloat: function() {
+
+    },
+
+    onAxis: function(button, index, value) {
+      switch (index) {
+        case Phaser.Gamepad.XBOX360_STICK_LEFT_X:
+          if (value > 0) {
+            this.rightInput1IsActive = true
+            this.leftInput1IsActive = false
+          } else if (value < 0) {
+            this.leftInput1IsActive = true
+            this.rightInput1IsActive = false
+          } else {
+            this.leftInput1IsActive = false
+            this.rightInput1IsActive = false
+          }
+          console.log('left sick x', value);
+        break;
+        // case Phaser.Gamepad.XBOX360_STICK_LEFT_Y:
+        //   if (value !== 0) {
+        //     this.upi
+        //   } else {
+        //
+        //   }
+        //   console.log('left sick y', value);
+        //   break;
+        // case Phaser.Gamepad.XBOX360_STICK_RIGHT_X:
+        //   console.log('righ sick x', value);
+        //   this.player1_flashlight.x = ( this.game.scale.width / 2 ) * ( value + 1 )
+        //   break;
+        // case Phaser.Gamepad.XBOX360_STICK_RIGHT_Y:
+        //   console.log('righ sick x', value);
+        //   this.player1_flashlight.y = ( this.game.scale.height / 2 ) * ( value + 1 )
+        //   break;
+        // default:
+        //   console.log('THAT SHOULDNT HAPPEN!')
+        //   alert('WAT')
+      }
+    },
   }
 
   // Setup level
