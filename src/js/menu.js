@@ -40,13 +40,13 @@
 
       // add sounds
       this.soundtrack = this.game.add.audio('soundtrack', 1, true, true);
-      this.redAudio = this.game.add.audio('redAudio1', 1, true, true);
-      this.greenAudio = this.game.add.audio('greenAudio2', 1, true, true);
+      this.redAudio = this.game.add.audio('redAudio1', 0.5, true, true);
+      this.greenAudio = this.game.add.audio('greenAudio2', 0.5, true, true);
 
       // start audio loops
       this.soundtrack.play();
-      this.redAudio.play();
-      this.greenAudio.play();
+      this.redAudio.play('', 0, 0.2);
+      this.greenAudio.play('', 0, 0.5);
 
 
       this.input.onDown.add(this.onDown, this);

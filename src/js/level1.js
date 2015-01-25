@@ -36,8 +36,8 @@
       this.whiteAudio2 = this.game.add.audio('whiteAudio2', 0.5, true, true);
 
       this.soundtrack.play();
-      this.whiteAudio1.play('', Math.random()*this.whiteAudio1.totalDuration*1000);
-      this.whiteAudio2.play('', Math.random()*this.whiteAudio2.totalDuration*1000);
+      this.whiteAudio1.play('', Math.random()*this.whiteAudio1.totalDuration*1000, 0.5);
+      this.whiteAudio2.play('', Math.random()*this.whiteAudio2.totalDuration*1000, 0.2);
 
 
       // threw it on the ground!
@@ -457,37 +457,37 @@
           this.player1Color = this.playerColorsGREEN;
 
           //change audio
-          if(!this.greenAudio1.isPlaying) this.greenAudio1.fadeTo(500, 0.5);
-          this.redAudio1.fadeTo(500, 0);
-          this.blueAudio1.fadeTo(500, 0);
-          this.whiteAudio1.fadeTo(500, 0);
+          if(!this.greenAudio1.isPlaying) this.greenAudio1.play('', Math.random()*this.greenAudio1.totalDuration*1000, 0.5);
+          this.redAudio1.fadeOut(500);
+          this.blueAudio1.fadeOut(500);
+          this.whiteAudio1.fadeOut(500);
           break;
         case Phaser.Gamepad.XBOX360_B:
           this.player1Color = this.playerColorsRED;
 
           //change audio
-          if(!this.redAudio1.isPlaying) this.redAudio1.fadeTo(500, 0.5);
-          this.greenAudio1.fadeTo(500, 0);
-          this.blueAudio1.fadeTo(500, 0);
-          this.whiteAudio1.fadeTo(500, 0);
+          if(!this.redAudio1.isPlaying) this.redAudio1.play('', Math.random()*this.redAudio1.totalDuration*1000, 0.5);
+          this.greenAudio1.fadeOut(500);
+          this.blueAudio1.fadeOut(500);
+          this.whiteAudio1.fadeOut(500);
           break;
         case Phaser.Gamepad.XBOX360_X:
           this.player1Color = this.playerColorsBLUE;
 
           //change audio
-          if(!this.blueAudio1.isPlaying) this.blueAudio1.fadeTo(500, 0.5);
-          this.redAudio1.fadeTo(500, 0);
-          this.greenAudio1.fadeTo(500, 0);
-          this.whiteAudio1.fadeTo(500, 0);
+          if(!this.blueAudio1.isPlaying) this.blueAudio1.play('', Math.random()*this.blueAudio1.totalDuration*1000, 0.5);
+          this.redAudio1.fadeOut(500);
+          this.greenAudio1.fadeOut(500);
+          this.whiteAudio1.fadeOut(500);
           break;
         case Phaser.Gamepad.XBOX360_Y:
           this.player1Color = this.playerColorsWHITE;
 
           //change audio
-          if(!this.whiteAudio1.isPlaying) this.whiteAudio1.fadeTo(500, 0.5);
-          this.redAudio1.fadeTo(500, 0);
-          this.blueAudio1.fadeTo(500, 0);
-          this.greenAudio1.fadeTo(500, 0);
+          if(!this.whiteAudio1.isPlaying) this.whiteAudio1.play('', Math.random()*this.whiteAudio1.totalDuration*1000, 0.5);
+          this.redAudio1.fadeOut(500);
+          this.blueAudio1.fadeOut(500);
+          this.greenAudio1.fadeOut(500);
           break;
         case Phaser.Gamepad.XBOX360_DPAD_LEFT:
           this.leftInput1IsActive = true
@@ -516,37 +516,37 @@
           this.player2Color = this.playerColorsGREEN;
 
           //change audio
-          if(!this.greenAudio2.isPlaying) this.greenAudio2.fadeTo(500, 0.5);
-          this.redAudio2.fadeTo(500, 0);
-          this.blueAudio2.fadeTo(500, 0);
-          this.whiteAudio2.fadeTo(500, 0);
+          if(!this.greenAudio2.isPlaying) this.greenAudio2.play('', Math.random()*this.greenAudio2.totalDuration*1000, 0.2);
+          this.redAudio2.fadeOut(500);
+          this.blueAudio2.fadeOut(500);
+          this.whiteAudio2.fadeOut(500);
           break;
         case Phaser.Keyboard.S:
           this.player2Color = this.playerColorsRED;
 
           //change audio
-          if(!this.redAudio2.isPlaying) this.redAudio2.fadeTo(500, 0.5);
-          this.greenAudio2.fadeTo(500, 0);
-          this.blueAudio2.fadeTo(500, 0);
-          this.whiteAudio2.fadeTo(500, 0);
+          if(!this.redAudio2.isPlaying) this.redAudio2.play('', Math.random()*this.redAudio2.totalDuration*1000, 0.2);
+          this.greenAudio2.fadeOut(500);
+          this.blueAudio2.fadeOut(500);
+          this.whiteAudio2.fadeOut(500);
           break;
         case Phaser.Keyboard.D:
           this.player2Color = this.playerColorsBLUE;
 
           //change audio
-          if(!this.blueAudio2.isPlaying) this.blueAudio2.fadeTo(500, 0.5);
-          this.redAudio2.fadeTo(500, 0);
-          this.greenAudio2.fadeTo(500, 0);
-          this.whiteAudio2.fadeTo(500, 0);
+          if(!this.blueAudio2.isPlaying) this.blueAudio2.play('', Math.random()*this.blueAudio2.totalDuration*1000, 0.2);
+          this.redAudio2.fadeOut(500);
+          this.greenAudio2.fadeOut(500);
+          this.whiteAudio2.fadeOut(500);
           break;
         case Phaser.Keyboard.F:
           this.player2Color = this.playerColorsWHITE;
 
           //change audio
-          if(!this.whiteAudio2.isPlaying) this.whiteAudio2.fadeTo(500, 0.5);
-          this.redAudio2.fadeTo(500, 0);
-          this.blueAudio2.fadeTo(500, 0);
-          this.greenAudio2.fadeTo(500, 0);
+          if(!this.whiteAudio2.isPlaying) this.whiteAudio2.play('', Math.random()*this.whiteAudio2.totalDuration*1000, 0.2);
+          this.redAudio2.fadeOut(500);
+          this.blueAudio2.fadeOut(500);
+          this.greenAudio2.fadeOut(500);
           break;
       }
     },

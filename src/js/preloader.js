@@ -56,7 +56,7 @@
 
     update: function () {
       if (!!this.ready) {
-        this.game.state.start('intro');
+        this.game.state.start('menu');
       }
     },
 
