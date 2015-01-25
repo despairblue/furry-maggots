@@ -9,27 +9,32 @@
 
     create: function() {
       // Set stage background color
-      this.game.stage.backgroundColor = 0x010101;
+//       this.game.stage.backgroundColor = 0x505050;
 
       // Add the light
       this.lightGroup = this.game.add.group();
 
       this.Player1Light = this.game.add.sprite(this.game.width/2, this.game.height/2, 'light');
       this.Player1Light.anchor.setTo(0.5, 0.5);
-      this.Player1Light.blendMode = Phaser.blendModes.ADD;
+//       this.Player1Light.blendMode = Phaser.blendModes.MULTIPLY;
 
       this.Player2Light = this.game.add.sprite(50, this.game.height - 50, 'light');
       this.Player2Light.anchor.setTo(0.5, 0.5);
-      this.Player2Light.blendMode = Phaser.blendModes.ADD;
+//       this.Player2Light.blendMode = Phaser.blendModes.MULTIPLY;
 
       this.lightGroup.add(this.Player1Light);
       this.lightGroup.add(this.Player2Light);
 
       // Create a bitmap texture for drawing light cones
-      this.bitmap = this.game.add.bitmapData(this.game.width, this.game.height);
-      this.bitmap.context.fillStyle = 'rgb(255, 255, 255)';
-      this.bitmap.context.strokeStyle = 'rgb(255, 255, 255)';
-      var lightBitmap = this.game.add.image(0, 0, this.bitmap);
+      this.bitmap1 = this.game.add.bitmapData(this.game.width, this.game.height);
+      this.bitmap1.context.fillStyle = 'rgb(255, 255, 255)';
+      this.bitmap1.context.strokeStyle = 'rgb(255, 255, 255)';
+      var lightBitmap1 = this.game.add.image(0, 0, this.bitmap1);
+
+      this.bitmap2 = this.game.add.bitmapData(this.game.width, this.game.height);
+      this.bitmap2.context.fillStyle = 'rgb(255, 255, 255)';
+      this.bitmap2.context.strokeStyle = 'rgb(255, 255, 255)';
+      var lightBitmap2 = this.game.add.image(0, 0, this.bitmap2);
 
       // This bitmap is drawn onto the screen using the MULTIPLY blend mode.
       // Since this bitmap is over the background, dark areas of the bitmap
@@ -38,7 +43,8 @@
       // only supported in WebGL. If your browser doesn't support WebGL then
       // you'll see gray shadows and white light instead of colors and it
       // generally won't look nearly as cool. So use a browser with WebGL.
-      lightBitmap.blendMode = Phaser.blendModes.ADD;
+      lightBitmap1.blendMode = Phaser.blendModes.ADD;
+      lightBitmap2.blendMode = Phaser.blendModes.ADD;
 
       // Create a bitmap for drawing rays
       this.rayBitmap = this.game.add.bitmapData(this.game.width, this.game.height);
@@ -81,8 +87,13 @@
       this.Player1Light.y = this.game.input.activePointer.y;
 
       // Next, fill the entire light bitmap with a dark shadow color.
-      this.bitmap.context.fillStyle = 'rgba(0, 0, 0, 1)';
-      this.bitmap.context.fillRect(0, 0, this.game.width, this.game.height);
+      this.bitmap1.context.fillStyle = 'rgba(1, 1, 1, 1)';
+      this.bitmap1.context.fillRect(0, 0, this.game.width, this.game.height);
+      this.rayBitmap.context.clearRect(0, 0, this.game.width, this.game.height);
+
+      // Next, fill the entire light bitmap with a dark shadow color.
+      this.bitmap2.context.fillStyle = 'rgba(1, 1, 1, 1)';
+      this.bitmap2.context.fillRect(0, 0, this.game.width, this.game.height);
       this.rayBitmap.context.clearRect(0, 0, this.game.width, this.game.height);
 
       // An array of the stage corners that we'll use later
@@ -96,18 +107,20 @@
       // Ray casting!
       // Cast rays from each light
       var light2 = this.Player2Light;
-      this.lightFunc(light2, 'rgba(0, 255, 0, .5)', stageCorners);
+      this.lightFunc(this.bitmap1, light2, 'rgba(0, 255, 0, 1)', stageCorners);
+
 
       var light1 = this.Player1Light;
-      this.lightFunc(light1, 'rgba(255, 0, 0, .5)', stageCorners);
+      this.lightFunc(this.bitmap2, light1, 'rgba(255, 0, 0, 1)', stageCorners);
 
 
       // This just tells the engine it should update the texture cache
-      this.bitmap.dirty = true;
+      this.bitmap1.dirty = true;
+      this.bitmap2.dirty = true;
       this.rayBitmap.dirty = true;
     },
 
-    lightFunc: function(light, rgbaColor, stageCorners) {
+    lightFunc: function(bitmap, light, rgbaColor, stageCorners) {
           var points = [];
           var ray = null;
           var intersect;
@@ -260,14 +273,14 @@
           // with a bright white color. When multiplied with the background,
           // the white color will allow the full color of the background to
           // shine through.
-          this.bitmap.context.beginPath();
-          this.bitmap.context.fillStyle = rgbaColor;
-          this.bitmap.context.moveTo(points[0].x, points[0].y);
+          bitmap.context.beginPath();
+          bitmap.context.fillStyle = rgbaColor;
+          bitmap.context.moveTo(points[0].x, points[0].y);
           for(var j = 0; j < points.length; j++) {
-              this.bitmap.context.lineTo(points[j].x, points[j].y);
+              bitmap.context.lineTo(points[j].x, points[j].y);
           }
-          this.bitmap.context.closePath();
-          this.bitmap.context.fill();
+          bitmap.context.closePath();
+          bitmap.context.fill();
 
           // Draw each of the rays on the rayBitmap
           this.rayBitmap.context.beginPath();
