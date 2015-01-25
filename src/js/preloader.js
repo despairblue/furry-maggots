@@ -48,7 +48,7 @@
 
     update: function () {
       if (!!this.ready) {
-        this.game.state.start('level1');
+        this.game.state.start('intro');
       }
     },
 

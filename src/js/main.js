@@ -11,6 +11,7 @@ window.onload = function () {
   game.state.add('game', ns.Game);
   /* yo phaser:state new-state-files-put-here */
   game.state.add('level1', ns.Level1);
+  game.state.add('intro', ns.Intro);
 
   // custom stuff
   Phaser.skeil = ns.skeil
