@@ -395,6 +395,21 @@
           bitmap.context.closePath();
           bitmap.context.fill();
 
+          // var gradient = bitmap.context.createRadialGradient(
+          //   light.x, light.y, 1,
+          //   light.x, light.y, 100
+          // )
+          // gradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+          // gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+          bitmap.context.beginPath();
+          bitmap.context.fillStyle = 'rgba(255, 255, 255, 1)'
+          bitmap.context.clearRect(light.x - 25, light.y - 25, 50, 50)
+          // bitmap.context.arc(light.x, light.y, radius, 0, Math.PI*2, false);
+          bitmap.context.closePath()
+          bitmap.context.fill();
+
+
           // Draw each of the rays on the rayBitmap
           this.rayBitmap.context.beginPath();
           this.rayBitmap.context.strokeStyle = 'rgb(255, 255, 255)';
