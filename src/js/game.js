@@ -112,7 +112,7 @@
         case Phaser.Gamepad.XBOX360_DPAD_RIGHT:
           this.rightInput1IsActive = true
           break;
-        case Phaser.Gamepad.XBOX360_RIGHT_BUMPER:
+        case Phaser.Gamepad.XBOX360_LEFT_TRIGGER:
           this.upInput1IsActive = true
           break;
       }
@@ -152,7 +152,7 @@
         case Phaser.Gamepad.XBOX360_DPAD_RIGHT:
           this.rightInput1IsActive = false
           break;
-        case Phaser.Gamepad.XBOX360_RIGHT_BUMPER:
+        case Phaser.Gamepad.XBOX360_LEFT_TRIGGER:
           this.upInput1IsActive = false
           break;
       }
@@ -175,8 +175,41 @@
 
     },
 
-    onAxis: function() {
-
+    onAxis: function(button, index, value) {
+      switch (index) {
+        case Phaser.Gamepad.XBOX360_STICK_LEFT_X:
+          if (value > 0) {
+            this.rightInput1IsActive = true
+            this.leftInput1IsActive = false
+          } else if (value < 0) {
+            this.leftInput1IsActive = true
+            this.rightInput1IsActive = false
+          } else {
+            this.leftInput1IsActive = false
+            this.rightInput1IsActive = false
+          }
+          console.log('left sick x', value);
+        break;
+        // case Phaser.Gamepad.XBOX360_STICK_LEFT_Y:
+        //   if (value !== 0) {
+        //     this.upi
+        //   } else {
+        //
+        //   }
+        //   console.log('left sick y', value);
+        //   break;
+        // case Phaser.Gamepad.XBOX360_STICK_RIGHT_X:
+        //   console.log('righ sick x', value);
+        //   this.player1_flashlight.x = ( this.game.scale.width / 2 ) * ( value + 1 )
+        //   break;
+        // case Phaser.Gamepad.XBOX360_STICK_RIGHT_Y:
+        //   console.log('righ sick x', value);
+        //   this.player1_flashlight.y = ( this.game.scale.height / 2 ) * ( value + 1 )
+        //   break;
+        // default:
+        //   console.log('THAT SHOULDNT HAPPEN!')
+        //   alert('WAT')
+      }
     },
   };
 
