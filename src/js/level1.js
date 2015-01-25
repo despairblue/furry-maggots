@@ -498,10 +498,42 @@
         case Phaser.Gamepad.XBOX360_LEFT_TRIGGER:
           this.upInput1IsActive = true
           break;
+        case Phaser.Gamepad.XBOX360_START:
+          this.soundtrack.stop();
+          if(this.whiteAudio1.isPlaying) this.whiteAudio1.stop();
+          if(this.whiteAudio2.isPlaying) this.whiteAudio2.stop();
+
+          if(this.blueAudio1.isPlaying) this.blueAudio1.stop();
+          if(this.blueAudio2.isPlaying) this.blueAudio2.stop();
+
+          if(this.redAudio1.isPlaying) this.redAudio1.stop();
+          if(this.redAudio2.isPlaying) this.redAudio2.stop();
+
+          if(this.greenAudio1.isPlaying) this.greenAudio1.stop();
+          if(this.greenAudio2.isPlaying) this.greenAudio2.stop();
+
+          this.game.state.start('level1');
+          break;
       }
 
       // keyboard
       switch (button.keyCode) {
+        case Phaser.Keyboard.ENTER:
+          this.soundtrack.stop();
+          if(this.whiteAudio1.isPlaying) this.whiteAudio1.stop();
+          if(this.whiteAudio2.isPlaying) this.whiteAudio2.stop();
+
+          if(this.blueAudio1.isPlaying) this.blueAudio1.stop();
+          if(this.blueAudio2.isPlaying) this.blueAudio2.stop();
+
+          if(this.redAudio1.isPlaying) this.redAudio1.stop();
+          if(this.redAudio2.isPlaying) this.redAudio2.stop();
+
+          if(this.greenAudio1.isPlaying) this.greenAudio1.stop();
+          if(this.greenAudio2.isPlaying) this.greenAudio2.stop();
+
+          this.game.state.start('level1');
+          break;
         case Phaser.Keyboard.LEFT:
           this.leftInput2IsActive = true;
           break;
