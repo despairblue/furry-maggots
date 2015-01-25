@@ -36,13 +36,7 @@
       this.bitmap2.context.strokeStyle = 'rgb(255, 255, 255)';
       var lightBitmap2 = this.game.add.image(0, 0, this.bitmap2);
 
-      // This bitmap is drawn onto the screen using the MULTIPLY blend mode.
-      // Since this bitmap is over the background, dark areas of the bitmap
-      // will make the background darker. White areas of the bitmap will allow
-      // the normal colors of the background to show through. Blend modes are
-      // only supported in WebGL. If your browser doesn't support WebGL then
-      // you'll see gray shadows and white light instead of colors and it
-      // generally won't look nearly as cool. So use a browser with WebGL.
+      // blendModes
       lightBitmap1.blendMode = Phaser.blendModes.ADD;
       lightBitmap2.blendMode = Phaser.blendModes.ADD;
 
@@ -55,6 +49,7 @@
       this.game.input.onTap.add(this.toggleRays, this);
 
       // Build some walls. These will block line of sight.
+      // those will be replaced by actual terrain
       var NUMBER_OF_WALLS = 4;
       this.walls = this.game.add.group();
       var i, x, y;
@@ -64,7 +59,36 @@
           this.game.add.image(x, y, 'block', 0, this.walls).scale.setTo(3, 3);
       }
 
-      // Simulate a pointer click/tap input at the center of the stage
+      // create Flashlights
+      // groups
+      this.Player1Flashlight = this.game.add.group();
+      this.Player1FlashlightLeft = this.game.add.group();
+      this.Player1FlashlightRight = this.game.add.group();
+
+      // constants
+      var offsetX = -20;
+      var offsetY = -1;
+
+      // box sprite is 32x32
+      var scaleX = 1/4;   // = 8 pixel
+      var scaleY = 1/16;  // = 2 pixel
+
+      // left bar
+      for(var i = 0; i < 4; i++) {
+        this.game.add.image(this.Player1Light.x+offsetX+(8*i), this.Player1Light.y+offsetY-(2*i), 'block', 0, this.Player1FlashlightLeft).scale.setTo(scaleX, scaleY);
+      }
+
+      // right bar
+      for(var i = 0; i < 4; i++) {
+        this.game.add.image(this.Player1Light.x+offsetX+(8*i), this.Player1Light.y+offsetY+(2*i), 'block', 0, this.Player1FlashlightRight).scale.setTo(scaleX, scaleY);
+      }
+
+      // add to flashlight
+      this.Player1Flashlight.add(this.Player1FlashlightLeft);
+      this.Player1Flashlight.add(this.Player1FlashlightRight);
+
+
+      // Simulate a pointer input at the center of the stage
       // when the example begins running.
       this.game.input.activePointer.x = this.game.width/2;
       this.game.input.activePointer.y = this.game.height/2;
@@ -82,7 +106,7 @@
 
     // The update() method is called every frame
     update: function() {
-      // Move the light to the pointer/touch location
+      // Move the light to pointer location
       this.Player1Light.x = this.game.input.activePointer.x;
       this.Player1Light.y = this.game.input.activePointer.y;
 
@@ -132,18 +156,20 @@
               // Create a ray from the light through each corner out to the edge of the stage.
               // This array defines points just inside of each corner to make sure we hit each one.
               // It also defines points just outside of each corner so we can see to the stage edges.
+              var offset = 0.1;
+
               var corners = [
-                  new Phaser.Point(wall.x+0.1, wall.y+0.1),
-                  new Phaser.Point(wall.x-0.1, wall.y-0.1),
+                  new Phaser.Point(wall.x+offset, wall.y+offset),
+                  new Phaser.Point(wall.x-offset, wall.y-offset),
 
-                  new Phaser.Point(wall.x-0.1 + wall.width, wall.y+0.1),
-                  new Phaser.Point(wall.x+0.1 + wall.width, wall.y-0.1),
+                  new Phaser.Point(wall.x-offset + wall.width, wall.y+offset),
+                  new Phaser.Point(wall.x+offset + wall.width, wall.y-offset),
 
-                  new Phaser.Point(wall.x-0.1 + wall.width, wall.y-0.1 + wall.height),
-                  new Phaser.Point(wall.x+0.1 + wall.width, wall.y+0.1 + wall.height),
+                  new Phaser.Point(wall.x-offset + wall.width, wall.y-offset + wall.height),
+                  new Phaser.Point(wall.x+offset + wall.width, wall.y+offset + wall.height),
 
-                  new Phaser.Point(wall.x+0.1, wall.y-0.1 + wall.height),
-                  new Phaser.Point(wall.x-0.1, wall.y+0.1 + wall.height)
+                  new Phaser.Point(wall.x+offset, wall.y-offset + wall.height),
+                  new Phaser.Point(wall.x-offset, wall.y+offset + wall.height)
               ];
 
               // Calculate rays through each point to the edge of the stage
