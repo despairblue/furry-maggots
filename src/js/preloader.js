@@ -26,6 +26,9 @@
       this.load.image('flashlight-blue', 'assets/flashlight-blue.png');
       this.load.image('flashlight-green', 'assets/flashlight-green.png');
 
+      this.load.image('light', 'assets/no-need-for-this.png');
+      this.load.image('box', 'assets/invisible-sprite.png');
+
       // invisible sprite
       this.load.image('invisible-sprite', 'assets/invisible-sprite.png');
 
@@ -45,7 +48,7 @@
 
     update: function () {
       if (!!this.ready) {
-        this.game.state.start('menu');
+        this.game.state.start('level1');
       }
     },
 

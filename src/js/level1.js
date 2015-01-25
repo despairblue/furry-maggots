@@ -16,11 +16,11 @@
 
       this.Player1Light = this.game.add.sprite(this.game.width/2, this.game.height/2, 'light');
       this.Player1Light.anchor.setTo(0.5, 0.5);
-      this.Player1Light.blendMode = Phaser.blendModes.NORMAL;
+      this.Player1Light.blendMode = Phaser.blendModes.ADD;
 
       this.Player2Light = this.game.add.sprite(50, this.game.height - 50, 'light');
       this.Player2Light.anchor.setTo(0.5, 0.5);
-      this.Player2Light.blendMode = Phaser.blendModes.NORMAL;
+      this.Player2Light.blendMode = Phaser.blendModes.ADD;
 
       this.lightGroup.add(this.Player1Light);
       this.lightGroup.add(this.Player2Light);
@@ -38,7 +38,7 @@
       // only supported in WebGL. If your browser doesn't support WebGL then
       // you'll see gray shadows and white light instead of colors and it
       // generally won't look nearly as cool. So use a browser with WebGL.
-      lightBitmap.blendMode = Phaser.blendModes.NORMAL;
+      lightBitmap.blendMode = Phaser.blendModes.ADD;
 
       // Create a bitmap for drawing rays
       this.rayBitmap = this.game.add.bitmapData(this.game.width, this.game.height);
@@ -81,7 +81,7 @@
       this.Player1Light.y = this.game.input.activePointer.y;
 
       // Next, fill the entire light bitmap with a dark shadow color.
-      this.bitmap.context.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      this.bitmap.context.fillStyle = 'rgba(0, 0, 0, 1)';
       this.bitmap.context.fillRect(0, 0, this.game.width, this.game.height);
       this.rayBitmap.context.clearRect(0, 0, this.game.width, this.game.height);
 
@@ -95,8 +95,6 @@
 
       // Ray casting!
       // Cast rays from each light
-
-
       var light2 = this.Player2Light;
       this.lightFunc(light2, 'rgba(0, 255, 0, .5)', stageCorners);
 
