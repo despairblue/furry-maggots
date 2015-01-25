@@ -14,9 +14,11 @@
 
       this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
       this.load.setPreloadSprite(this.asset);
-      this.load.image('player', 'assets/sprite_charlie.png');
+      this.load.spritesheet('player1', 'assets/spriteplayer1clean.png', 64, 64, 3);
+      this.load.spritesheet('player2', 'assets/spriteplayer2clean.png', 64, 64, 3);
       this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
       this.load.image('background', 'assets/test_background_grey.jpg');
+      this.load.image('block', 'assets/greyblock.png');
 
       // menu flashlight colors
       this.load.image('flashlight-white', 'assets/flashlight-white.png');

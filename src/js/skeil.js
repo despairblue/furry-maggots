@@ -40,6 +40,13 @@
         onFloat: self.onFloat.bind(self),
         onAxis: self.onAxis.bind(self),
       });
+
+      // set up Keyboard
+      self.game.input.keyboard.addCallbacks(
+        self,
+        self.onDown,
+        self.onUp
+      )
     },
 
     // Create torch objects
@@ -61,6 +68,65 @@
 
       // Set the transparency to a low value so decrease the brightness
       this.glow.alpha = 0.9;
+    },
+
+    Player: function(self, sprite) {
+      // Define movement constants
+      var MAX_SPEED = 200; // pixels/second
+      var ACCELERATION = 1500; // pixels/second/second
+      var DRAG = 600; // pixels/second
+      var GRAVITY = 2600; // pixels/second/second
+      var JUMP_SPEED = -500; // pixels/second (negative y is up)
+
+      // Create a player sprite
+      var player = self.add.sprite(0, 0, sprite, 0)
+      player.animations.add('walk')
+
+      // Enable physics on the player
+      self.game.physics.enable(player, Phaser.Physics.ARCADE);
+
+      // Make player collide with world boundaries so he doesn't leave the stage
+      player.body.collideWorldBounds = true;
+
+      // Set player minimum and maximum movement speed
+      player.body.maxVelocity.setTo(MAX_SPEED, MAX_SPEED * 10); // x, y
+
+      // Add drag to the player that slows them down when they are not accelerating
+      player.body.drag.setTo(DRAG, 0); // x, y
+
+      // Since we're jumping we need gravity
+      self.game.physics.arcade.gravity.y = GRAVITY;
+
+      player.anchor.setTo(0.5, 0.5);
+      self.input.onDown.add(self.onInputDown, self);
+
+      player.left = function(state) {
+        if (state) {
+          player.body.acceleration.x = -ACCELERATION
+          player.scale.x = -1
+          player.animations.play('walk', 12, true)
+        } else {
+          player.body.acceleration.x = 0
+          player.animations.stop('walk', true)
+        }
+      }
+
+      player.right = function(state) {
+        if (state) {
+          player.body.acceleration.x = ACCELERATION
+          player.scale.x = 1
+          player.animations.play('walk', 12, true)
+        } else {
+          player.body.acceleration.x = 0
+          player.animations.stop('walk', true)
+        }
+      }
+
+      player.jump = function() {
+        player.body.velocity.y = JUMP_SPEED
+      }
+
+      return player
     }
   }
 
