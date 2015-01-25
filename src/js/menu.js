@@ -107,7 +107,7 @@
       this.greenAudio.stop();
 
       // start level1
-      this.game.state.start('game');
+      this.game.state.start('level1');
     },
 
     //  On FF 0 = Y, 1 = X, 2 = Y, 3 = X, 4 = left bumper, 5 = dpad left, 6 = dpad right
