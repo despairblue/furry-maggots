@@ -26,7 +26,7 @@
       this.load.image('flashlight-blue', 'assets/flashlight-blue.png');
       this.load.image('flashlight-green', 'assets/flashlight-green.png');
 
-      this.load.image('light', 'assets/no-need-for-this.png');
+      this.load.image('light', 'assets/invisible-sprite.png');
       this.load.image('box', 'assets/invisible-sprite.png');
 
       // invisible sprite
