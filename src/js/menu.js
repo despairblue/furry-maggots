@@ -105,8 +105,6 @@
       this.soundtrack.stop();
       this.redAudio.stop();
       this.greenAudio.stop();
-      this.blueAudio.stop();
-      this.whiteAudio.stop();
 
       // start level1
       this.game.state.start('game');
