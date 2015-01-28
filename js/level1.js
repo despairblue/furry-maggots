@@ -574,7 +574,7 @@
         case Phaser.Keyboard.SPACEBAR:
           this.upInput2IsActive = true
           break;
-        case Phaser.Keyboard.K:
+        case Phaser.Keyboard.J:
           // change color of flashlight
           this.player2Color = this.playerColorsGREEN;
 
@@ -584,7 +584,7 @@
           this.blueAudio2.fadeOut(500);
           this.whiteAudio2.fadeOut(500);
           break;
-        case Phaser.Keyboard.J:
+        case Phaser.Keyboard.H:
           this.player2Color = this.playerColorsRED;
 
           //change audio
@@ -593,7 +593,7 @@
           this.blueAudio2.fadeOut(500);
           this.whiteAudio2.fadeOut(500);
           break;
-        case Phaser.Keyboard.L:
+        case Phaser.Keyboard.K:
           this.player2Color = this.playerColorsBLUE;
 
           //change audio
@@ -602,7 +602,7 @@
           this.greenAudio2.fadeOut(500);
           this.whiteAudio2.fadeOut(500);
           break;
-        case Phaser.Keyboard.COLON:
+        case Phaser.Keyboard.L:
           this.player2Color = this.playerColorsWHITE;
 
           //change audio
